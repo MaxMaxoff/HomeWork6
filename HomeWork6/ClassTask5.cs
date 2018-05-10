@@ -82,7 +82,7 @@ namespace HomeWork6
 
             // признак наличия элемента в массиве
             bool isInArrOfMax;
-            
+
             // заполняем массив индексами 17-и максимальных элементов из всей последовательности
             for (int j = 0; j < 17; j++)
                 for (int i = 0; i < a.Length; i++)
@@ -91,11 +91,16 @@ namespace HomeWork6
                         isInArrOfMax = false;
                         for (int k = 0; k < 17; k++)
                             if (i == arrOfMax[k]) isInArrOfMax = true;
-                        if (!isInArrOfMax) arrOfMax[j] = i;
+                        if (!isInArrOfMax)
+
+                            arrOfMax[j] = i;
+
                     }
+
 
             // ищем максимальное произведение элементов в последовательности
             for (int i = 0; i < 17; i++)
+            {
                 for (int j = 0; j < 17 && Math.Abs(arrOfMax[i] - arrOfMax[j]) >= 8; j++)
                     if (a[arrOfMax[i]] * a[arrOfMax[j]] > max)
                     {
@@ -103,6 +108,8 @@ namespace HomeWork6
                         max1 = arrOfMax[i];
                         max2 = arrOfMax[j];
                     }
+                Console.WriteLine($"Index: {arrOfMax[i]}; Value: {a[arrOfMax[i]]}");
+            }
         }
     }
 }

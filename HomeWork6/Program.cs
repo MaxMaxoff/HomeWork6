@@ -509,6 +509,8 @@ namespace HomeWork6
             SupportMethods.Pause($"Максимальное произведение двух элементов равно {max}\n" +
                 $"номера элементов {i} и {j}\n" +
                 $"Время выполнения {DateTime.Now - d}");
+
+            //SupportMethods.Pause("Максимальное произведение двух элементов равно 1409865409\n");
         }
 
         /// <summary>
