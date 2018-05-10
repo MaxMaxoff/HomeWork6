@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SupportLibrary;
 using System.IO;
+using System.Text.RegularExpressions;
 
 /// <summary>
 /// Максим Торопов
@@ -134,7 +135,7 @@ namespace HomeWork6
             SupportMethods.PrepareConsoleForHomeTask("Изменить программу вывода функции так, чтобы можно было передавать функции типа double(double,double).\n" +
                 "Продемонстрировать работу на функции с функцией a*x^2 и функцией a*sin(x).");
 
-            
+
 
             // Создаем новый делегат и передаем ссылку на него в метод Table
             Console.WriteLine("Таблица функции MyFunc:");
@@ -149,7 +150,7 @@ namespace HomeWork6
 
             Console.WriteLine("Таблица функции a * sin(x):");
             Table(MyFunc2, -2, -2, 2); // Можно передавать уже созданные методы
-            
+
             // Упрощение(с C# 2.0). Использование анонимного метода
             //Table(delegate (double x) { return x * x; }, 0, 3);
 
@@ -186,7 +187,7 @@ namespace HomeWork6
         /// <returns> double F</returns>
         public static double F3(double x)
         {
-            return x * x ;
+            return x * x;
         }
 
         /// <summary>
@@ -284,8 +285,8 @@ namespace HomeWork6
                 "5 - функция: x ^ 3\n" +
                 "0 (Esc) - Exit\n");
                 ConsoleKeyInfo key = Console.ReadKey();
-                Console.WriteLine();                
-                                
+                Console.WriteLine();
+
                 switch (key.Key)
                 {
                     case ConsoleKey.D1:
@@ -326,7 +327,6 @@ namespace HomeWork6
             //Создаем список студентов
             List<Student> list = new List<Student>();
 
-            DateTime dt = DateTime.Now;
             StreamReader sr = null;
             try
             {
@@ -370,7 +370,7 @@ namespace HomeWork6
             foreach (Student st in list)
             {
                 if (st.GetCourse >= 5) sum++;
-                if (st.GetAge >= 18 && st.GetAge <= 20) ar[st.GetCourse-1]++;
+                if (st.GetAge >= 18 && st.GetAge <= 20) ar[st.GetCourse - 1]++;
             }
             SupportMethods.Pause($"Количество студентов на 5-6 курсах {sum}");
             SupportMethods.Pause($"Распределение студентов от 18 до 20 лет по курсам:\n{Student.FrequencyArrayToString(ref ar, "курс", "студентов")}");
@@ -447,19 +447,101 @@ namespace HomeWork6
             else return res;
         }
 
+        /// <summary>
+        /// **В файле могут встречаться номера телефонов, записанные в формате xx-xx-xx, xxx-xxx или xxx-xx-xx.
+        /// Вывести все номера телефонов, которые содержатся в файле.
+        /// </summary>
         static void Task4()
         {
+            // Prepare Console
+            SupportMethods.Pause($"**В файле могут встречаться номера телефонов, записанные в формате xx-xx-xx, xxx-xxx или xxx-xx-xx.\n" +
+                $"Вывести все номера телефонов, которые содержатся в файле.");
+
+            // Regex pattern for xx-xx-xx, xxx-xxx или xxx-xx-xx in text
+            string pattern = @"((\d{2}-\d{2}-\d{2})|(\d{3}-\d{2}-\d{2})|(\d{3}-\d{3}))";
+
+            // Create and initialize new regex
+            Regex rgx = new Regex(pattern);
+
+            // Check if file exist
+            if (File.Exists("file.dat"))
+            {
+                // Read all text from file into string
+                string text = File.ReadAllText("file.dat");
+
+                SupportMethods.Pause($"Текущее содержание файла:\n{text}");
+
+                // try to get one matches
+                Console.WriteLine("\nНайденные номера:\n");
+
+                foreach (var c in rgx.Matches(text))
+                    Console.WriteLine($"{c}");
+            }
+            else Console.WriteLine("File not found!");
+
+            SupportMethods.Pause();
 
         }
 
+        /// <summary>
+        /// **Модифицировать задачу “Сложную задачу” ЕГЭ так, чтобы она решала задачу с 10 000 000 элементов менее чем за минуту.
+        /// 
+        /// Для заданной последовательности неотрицательных целых чисел необходимо найти максимальное произведение двух её элементов, номера которых различаются не менее, чем на 8.
+        /// Значение каждого элемента последовательности не превышает 100 000.
+        /// Количество элементов последовательности равно 100 000.
+        /// Сгенерировать файл из случайных чисел и решить эту задачу
+        /// </summary>
         static void Task5()
         {
+            // Prepare Console
+            SupportMethods.Pause($"**Модифицировать задачу “Сложную задачу” ЕГЭ так, чтобы она решала задачу с 10 000 000 элементов менее чем за минуту.\n");
 
+            int i, j, max;
+
+            ClassTask5.SaveToFile("data_for_task5.bin", 10000000);
+
+            DateTime d = DateTime.Now;
+            Console.WriteLine($"Время начала: {d}");
+
+            ClassTask5 t = new ClassTask5("data_for_task5.bin");
+            t.Max(out i, out j, out max);
+            SupportMethods.Pause($"Максимальное произведение двух элементов равно {max}\n" +
+                $"номера элементов {i} и {j}\n" +
+                $"Время выполнения {DateTime.Now - d}");
         }
 
+        /// <summary>
+        /// ***В заданной папке найти во всех html файлах теги <img src=...> и вывести названия картинок.
+        /// Использовать регулярные выражения.
+        /// </summary>
         static void Task6()
         {
+            // Prepare Console
+            SupportMethods.Pause($"***В заданной папке найти во всех html файлах теги <img src=...> и вывести названия картинок." +
+                $"Использовать регулярные выражения.");
 
+            // Получаем список файлов в папке. AllDirectories - сканировать также и подпапки
+            string[] fs = Directory.GetFiles("C:\\tmp\\test", "*.html", SearchOption.AllDirectories);
+
+            string pattern = @"\<img src=""(.*?)\""";
+
+            // Просматриваем каждый файл в массиве
+            foreach (var filename in fs)
+            {
+                // Создаем регулярное выражения дя поиска тегов                
+                Regex regex = new Regex(pattern);
+                
+                // Считываем файл
+                string s = File.ReadAllText(filename);
+                Console.WriteLine($"\n{filename}:");
+                
+                // Выводим найденные адреса на экран
+                foreach (Match c in regex.Matches(s))
+                    //Console.WriteLine($"{c} {regex.Matches(s)}");
+                    Console.WriteLine($"{c.Groups[1].Value}");
+            }
+            Console.ReadKey();
         }
     }
 }
+
