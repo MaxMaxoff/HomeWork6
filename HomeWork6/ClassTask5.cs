@@ -91,12 +91,8 @@ namespace HomeWork6
                         isInArrOfMax = false;
                         for (int k = 0; k < 17; k++)
                             if (i == arrOfMax[k]) isInArrOfMax = true;
-                        if (!isInArrOfMax)
-
-                            arrOfMax[j] = i;
-
+                        if (!isInArrOfMax) arrOfMax[j] = i;
                     }
-
 
             // ищем максимальное произведение элементов в последовательности
             for (int i = 0; i < 17; i++)
