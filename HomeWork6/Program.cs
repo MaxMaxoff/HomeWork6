@@ -494,7 +494,8 @@ namespace HomeWork6
         static void Task5()
         {
             // Prepare Console
-            SupportMethods.Pause($"**Модифицировать задачу “Сложную задачу” ЕГЭ так, чтобы она решала задачу с 10 000 000 элементов менее чем за минуту.\n");
+            SupportMethods.Pause($"**Модифицировать задачу “Сложную задачу” ЕГЭ так, чтобы она решала задачу с 10 000 000 элементов менее чем за минуту.\n" +
+                $"Press any key to continue...");
 
             int i, j, max;
 
@@ -518,7 +519,7 @@ namespace HomeWork6
         {
             // Prepare Console
             SupportMethods.Pause($"***В заданной папке найти во всех html файлах теги <img src=...> и вывести названия картинок." +
-                $"Использовать регулярные выражения.");
+                $"Использовать регулярные выражения.\n");
 
             // Получаем список файлов в папке. AllDirectories - сканировать также и подпапки
             string[] fs = Directory.GetFiles("C:\\tmp\\test", "*.html", SearchOption.AllDirectories);
