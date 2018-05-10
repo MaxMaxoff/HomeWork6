@@ -33,7 +33,6 @@ namespace HomeWork6
         /// <param name="fileName"></param>
         public ClassTask5(string fileName)
         {
-            DateTime d = DateTime.Now;
             FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read);
             BinaryReader br = new BinaryReader(fs);
             a = new int[fs.Length / 4];
